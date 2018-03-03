@@ -4,7 +4,7 @@ var triangles = [];
 var badTriangles = [];
 var edges = [];
 var k=0;
-var pointCount = 350;
+var pointCount = 750;
 var threshold = 35;
 var s1, s2, s3, s4;
 
@@ -42,11 +42,10 @@ function setup() {
   sobel_v[2][0]=sobel_v[2][2]=-1;
   sobel_v[0][1]=2; sobel_v[2][1]=-2;
 
-  console.log("img width: "+img.width+" img H: "+img.height);
+
   createCanvas(640, 426);
   background(255);
   var output = convolute(Gaussian, img);
-  console.log("pixles length: " +img.pixels.length);
   for(var i=0; i<output.m; i++){
     for(var j=0; j<output.n; j++){
       var loc = (i+j*img.width)*4;
@@ -61,7 +60,6 @@ function setup() {
   var gradient_x = convolute(Sobel_h, img);
   var gradient_y = convolute(Sobel_v, img);
   var gradient = new Matrix(output.m, output.n);
-  console.log("M: "+gradient.m +" N: "+gradient.n);
   for(var i=0; i<gradient.m; i++){
     for(var j=0; j<gradient.n; j++){
       var squared = gradient_x.mat[i][j]*gradient_x.mat[i][j]+gradient_y.mat[i][j]*gradient_y.mat[i][j];
@@ -89,7 +87,6 @@ function setup() {
   for(var i=0; i<pointCount; i++){
    var rand = int(random(0, nodes.length));
    randomNode = nodes[rand];
-   console.log("NODES" + nodes.length);
    while(randomNode.x<=30||randomNode.x>=width-30||randomNode.y<=30||randomNode.y>=height-30){
      rand = int(random(0, nodes.length));
      randomNode = nodes[rand];
@@ -128,10 +125,7 @@ function draw() {
       var p1 = triangles[i].p1;
       var p2 = triangles[i].p2;
       var p3 = triangles[i].p3;
-      console.log("before: "+triangles.length);
       triangles.splice(i, 1);
-      console.log("after: "+triangles.length);
-      console.log("");
       var l1 = new Line(p1, p2);
       var l2 = new Line(p2, p3);
       var l3 = new Line(p3, p1);
@@ -156,7 +150,6 @@ function draw() {
 else{
   edge_hash[l3.p1.x+" "+l3.p1.y+" "+l3.p2.x+" "+l3.p2.y]=edge_hash[l3.p1.x+" "+l3.p1.y+" "+l3.p2.x+" "+l3.p2.y]+1;
 }
-    console.log(edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]);
 
       i--;
     }
@@ -170,7 +163,6 @@ else{
     if(edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]==1){
       triangles.push(new Triangle(p, p1, p2));
     //  edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]=edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]-1;
-        console.log("new tri");
       i--;
       //System.out.println("Does not contain edge");
     }
@@ -182,6 +174,7 @@ else{
   edge_hash={};
   if(k==points.length-1){
     background(255);
+    backup.loadPixels();
     for(var i=0; i<points.length; i++){
       points[i].display();
     }
@@ -196,9 +189,9 @@ else{
       var loc1 = (x1+y1*backup.width)*4;
       var loc2 = (x2+y2*backup.width)*4;
       var loc3 = (x3+y3*backup.width)*4;
-      var c1 = color(backup.pixels[loc1], backup.pixels[loc1+1], backup.pixels[loc1+2]);
-      var c2 = color(backup.pixels[loc2], backup.pixels[loc2+1], backup.pixels[loc2+2]);
-      var c3 = color(backup.pixels[loc3], backup.pixels[loc3+1], backup.pixels[loc3+2]);
+      var c1 = color(int(backup.pixels[loc1]), int(backup.pixels[loc1+1]), int(backup.pixels[loc1+2]));
+      var c2 = color(int(backup.pixels[loc2]), int(backup.pixels[loc2+1]), int(backup.pixels[loc2+2]));
+      var c3 = color(int(backup.pixels[loc3]), int(backup.pixels[loc3+1]), int(backup.pixels[loc3+2]));
       var r = 0;
       var g = 0;
       var b = 0;
@@ -227,8 +220,6 @@ function convolute(k, img){
   //set the input matrix equal to the image pixels
   var input = new Matrix(i_width+2*anchor, i_height+anchor*2);
   var output = new Matrix(i_width, i_height);
-  console.log("i_width: "+img.width);
-  console.log("i_height: "+i_height);
   /*for(int i=0; i<img.pixels.length; i++){
     input.mat[anchor+i/i_width][anchor+i%i_height]=brightness(img.pixels[i]);
   }*/
