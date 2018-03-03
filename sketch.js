@@ -138,23 +138,23 @@ function draw() {
      edges.push(l1);
       edges.push(l2);
       edges.push(l3);
-      if(edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]==null){
-      edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]=1;
+      if(edge_hash[l1.p1.x+" "+l1.p1.y+" "+l1.p2.x+" "+l1.p2.y]==null){
+      edge_hash[l1.p1.x+" "+l1.p1.y+" "+l1.p2.x+" "+l1.p2.y]=1;
     }
     else{
-      edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]=edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]+1;
+      edge_hash[l1.p1.x+" "+l1.p1.y+" "+l1.p2.x+" "+l1.p2.y]=edge_hash[l1.p1.x+" "+l1.p1.y+" "+l1.p2.x+" "+l1.p2.y]+1;
     }
-    if(edge_hash[p2.x+" "+p2.y+" "+p3.x+" "+p3.y]==null){
-    edge_hash[p2.x+" "+p2.y+" "+p3.x+" "+p3.y]=1;
+    if(edge_hash[l2.p1.x+" "+l2.p1.y+" "+l2.p2.x+" "+l2.p2.y]==null){
+    edge_hash[l2.p1.x+" "+l2.p1.y+" "+l2.p2.x+" "+l2.p2.y]=1;
   }
   else{
-    edge_hash[p2.x+" "+p2.y+" "+p3.x+" "+p3.y]=edge_hash[p2.x+" "+p2.y+" "+p3.x+" "+p3.y]+1;
+    edge_hash[l2.p1.x+" "+l2.p1.y+" "+l2.p2.x+" "+l2.p2.y]=edge_hash[l2.p1.x+" "+l2.p1.y+" "+l2.p2.x+" "+l2.p2.y]+1;
   }
-  if(edge_hash[p3.x+" "+p3.y+" "+p1.x+" "+p1.y]==null){
-  edge_hash[p3.x+" "+p3.y+" "+p1.x+" "+p1.y]=1;
+  if(edge_hash[l3.p1.x+" "+l3.p1.y+" "+l3.p2.x+" "+l3.p2.y]==null){
+  edge_hash[l3.p1.x+" "+l3.p1.y+" "+l3.p2.x+" "+l3.p2.y]=1;
 }
 else{
-  edge_hash[p3.x+" "+p3.y+" "+p1.x+" "+p1.y]=edge_hash[p3.x+" "+p3.y+" "+p1.x+" "+p1.y]+1;
+  edge_hash[l3.p1.x+" "+l3.p1.y+" "+l3.p2.x+" "+l3.p2.y]=edge_hash[l3.p1.x+" "+l3.p1.y+" "+l3.p2.x+" "+l3.p2.y]+1;
 }
     console.log(edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]);
 
@@ -167,9 +167,9 @@ else{
     var p2 = edges[i].p2;
     edges.splice(i, 1);
     //if(!edges.includes(edge)){
-    if(edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]>=1||edge_hash[p2.x+" "+p2.y+" "+p1.x+" "+p1.y]>=1){
+    if(edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]==1){
       triangles.push(new Triangle(p, p1, p2));
-      edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]=edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]-1;
+    //  edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]=edge_hash[p1.x+" "+p1.y+" "+p2.x+" "+p2.y]-1;
         console.log("new tri");
       i--;
       //System.out.println("Does not contain edge");
@@ -334,8 +334,14 @@ function Point(x, y) {
 
 
 function Line(p1, p2) {
+  if(p1.x<p2.x){
   this.p1=p1;
   this.p2= p2;
+}
+else{
+  this.p1=p2;
+  this.p2=p1;
+}
 
   this.display=function(){
     stroke(255, 0, 255);
