@@ -4,8 +4,8 @@ var triangles = [];
 var badTriangles = [];
 var edges = [];
 var k=0;
-var pointCount = 750;
-var threshold = 35;
+var pointCount = 700;
+var threshold = 25;
 var s1, s2, s3, s4;
 
 var img;
@@ -49,9 +49,9 @@ function setup() {
   for(var i=0; i<output.m; i++){
     for(var j=0; j<output.n; j++){
       var loc = (i+j*img.width)*4;
-      img.pixels[loc]=red(color(int(output.mat[i][j])));
-      img.pixels[loc+1]=green(color(int(output.mat[i][j])));
-      img.pixels[loc+2]=blue(color(int(output.mat[i][j])));
+      img.pixels[loc]=color(int(output.mat[i][j]));
+      img.pixels[loc+1]=color(int(output.mat[i][j]));
+      img.pixels[loc+2]=color(int(output.mat[i][j]));
     }
   }
   updatePixels();
@@ -72,9 +72,9 @@ function setup() {
     for(var j=0; j<gradient.n; j++){
       var loc = (i+j*img.width)*4;
       //float show=map((float)output.mat[i][j], 0.0, 40545.0, 0.0, 255.0);
-      var r = img.pixels[loc]=red(color(int(gradient.mat[i][j])));
-      var g = img.pixels[loc+1]=green(color(int(gradient.mat[i][j])));
-      var b = img.pixels[loc+2]=blue(color(int(gradient.mat[i][j])));
+      var r = img.pixels[loc]=color(int(gradient.mat[i][j]));
+      var g = img.pixels[loc+1]=color(int(gradient.mat[i][j]));
+      var b = img.pixels[loc+2]=color(int(gradient.mat[i][j]));
       var col = color(r, g, b);
       if(brightness(col)>threshold){
         nodes.push(new Point(i, j));
@@ -189,9 +189,9 @@ else{
       var loc1 = (x1+y1*backup.width)*4;
       var loc2 = (x2+y2*backup.width)*4;
       var loc3 = (x3+y3*backup.width)*4;
-      var c1 = color(int(backup.pixels[loc1]), int(backup.pixels[loc1+1]), int(backup.pixels[loc1+2]));
-      var c2 = color(int(backup.pixels[loc2]), int(backup.pixels[loc2+1]), int(backup.pixels[loc2+2]));
-      var c3 = color(int(backup.pixels[loc3]), int(backup.pixels[loc3+1]), int(backup.pixels[loc3+2]));
+      var c1 = color(backup.pixels[loc1], backup.pixels[loc1+1], backup.pixels[loc1+2]);
+      var c2 = color(backup.pixels[loc2], backup.pixels[loc2+1], backup.pixels[loc2+2]);
+      var c3 = color(backup.pixels[loc3], backup.pixels[loc3+1], backup.pixels[loc3+2]);
       var r = 0;
       var g = 0;
       var b = 0;
