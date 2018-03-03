@@ -180,6 +180,9 @@ else{
     }
     for(var i=0; i<triangles.length; i++){
       var t = triangles[i];
+      var center = t.calcCircumcenter();
+      var x = int(center.x);
+      var y = int(center.y);
       var x1 = int(t.p1.x);
       var y1 = int(t.p1.y);
       var x2 = int(t.p2.x);
@@ -189,16 +192,20 @@ else{
       var loc1 = (x1+y1*backup.width)*4;
       var loc2 = (x2+y2*backup.width)*4;
       var loc3 = (x3+y3*backup.width)*4;
+      var loc = int((x+y*backup.width)*4);
       var c1 = color(backup.pixels[loc1], backup.pixels[loc1+1], backup.pixels[loc1+2]);
       var c2 = color(backup.pixels[loc2], backup.pixels[loc2+1], backup.pixels[loc2+2]);
       var c3 = color(backup.pixels[loc3], backup.pixels[loc3+1], backup.pixels[loc3+2]);
-      var r = 0;
+      var c = color(backup.pixels[loc], backup.pixels[loc+1], backup.pixels[loc+2]);
+    /*  var r = 0;
       var g = 0;
-      var b = 0;
-
-       r = (red(c1)+red(c2)+red(c3))/3;
-       g = (green(c1)+green(c2)+green(c3))/3;
-       b = (blue(c1)+blue(c2)+blue(c3))/3;
+      var b = 0;*/
+      var r = red(c);
+      var g = green(c);
+      var b = blue(c);
+       r = r*0.7+((red(c1)+red(c2)+red(c3))/3)*0.3;
+       g = g*0.7+((green(c1)+green(c2)+green(c3))/3)*0.3;
+       b = b*0.7+((blue(c1)+blue(c2)+blue(c3))/3)*0.3;
       t.fillTriangle(color(r, g, b));
       t.display();
 
